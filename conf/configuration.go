@@ -196,6 +196,7 @@ type SmsProviderConfiguration struct {
 	Messagebird  MessagebirdProviderConfiguration `json:"messagebird"`
 	Textlocal    TextlocalProviderConfiguration   `json:"textlocal"`
 	Vonage       VonageProviderConfiguration      `json:"vonage"`
+	Aliyun       AliyunProviderConfiguration      `json:"aliyun"`
 }
 
 type TwilioProviderConfiguration struct {
@@ -218,6 +219,14 @@ type VonageProviderConfiguration struct {
 	ApiKey    string `json:"api_key" split_words:"true"`
 	ApiSecret string `json:"api_secret" split_words:"true"`
 	From      string `json:"from" split_words:"true"`
+}
+
+type AliyunProviderConfiguration struct {
+	ApiKey       string `json:"api_key" split_words:"true"`
+	ApiSecret    string `json:"api_secret" split_words:"true"`
+	SignName     string `json:"sign_name" split_words:"true"`
+	TemplateCode string `json:"template_code" split_words:"true"`
+	Product      string `json:"product" split_words:"true"`
 }
 
 type CaptchaConfiguration struct {
@@ -493,5 +502,22 @@ func (t *VonageProviderConfiguration) Validate() error {
 	if t.From == "" {
 		return errors.New("missing Vonage 'from' parameter")
 	}
+	return nil
+}
+
+func (t *AliyunProviderConfiguration) Validate() error {
+	if t.ApiKey == "" {
+		return errors.New("missing Aliyun API key")
+	}
+	if t.ApiSecret == "" {
+		return errors.New("missing Aliyun API secret")
+	}
+	if t.SignName == "" {
+		return errors.New("missing Aliyun Sign Name")
+	}
+	if t.TemplateCode == "" {
+		return errors.New("missing Aliyun template code")
+	}
+
 	return nil
 }

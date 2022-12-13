@@ -51,6 +51,13 @@ func TestSmsProvider(t *testing.T) {
 					ApiKey: "test_api_key",
 					Sender: "test_sender",
 				},
+				Aliyun: conf.AliyunProviderConfiguration{
+					ApiKey:       "test_api_key",
+					ApiSecret:    "test_api_secret",
+					SignName:     "test_sign_name",
+					TemplateCode: "test_template_code",
+					Product:      "test_product_name",
+				},
 			},
 		},
 	}
@@ -212,5 +219,20 @@ func (ts *SmsProviderTestSuite) TestTextLocalSendSms() {
 	})
 
 	err = textlocalProvider.SendSms(phone, message)
+	require.NoError(ts.T(), err)
+}
+
+func (ts *SmsProviderTestSuite) TestAliyunSendSms() {
+	defer gock.Off()
+	provider, err := NewAliyunProvider(ts.Config.Sms.Aliyun)
+	require.NoError(ts.T(), err)
+
+	aliyunProvider, ok := provider.(*AliyunProvider)
+	require.Equal(ts.T(), true, ok)
+
+	phone := "12345678911"
+	message := "123456"
+
+	err = aliyunProvider.SendSms(phone, message)
 	require.NoError(ts.T(), err)
 }
