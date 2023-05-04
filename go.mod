@@ -67,12 +67,12 @@ require (
 	github.com/alibabacloud-go/darabonba-openapi v0.2.1
 	github.com/alibabacloud-go/dysmsapi-20170525/v2 v2.0.18
 	github.com/alibabacloud-go/tea v1.1.20
-	github.com/crewjam/saml v0.4.9
 	github.com/crewjam/saml v0.4.13
 	github.com/deepmap/oapi-codegen v1.12.4
 	github.com/fatih/structs v1.1.0
 	github.com/gobuffalo/pop/v6 v6.1.1
 	github.com/jackc/pgx/v4 v4.17.2
+	github.com/netlify/gotrue v1.0.1
 )
 
 require (
@@ -85,7 +85,7 @@ require (
 	github.com/aliyun/credentials-go v1.1.2 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
-	github.com/beevik/etree v1.1.0 // indirect
+	github.com/beevik/etree v1.1.1-0.20200718192613-4a2f8b9d084c // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.3 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
@@ -103,8 +103,6 @@ require (
 	github.com/gobuffalo/flect v1.0.0 // indirect
 	github.com/gobuffalo/github_flavored_markdown v1.1.3 // indirect
 	github.com/gobuffalo/helpers v0.6.7 // indirect
-	github.com/gobuffalo/packd v1.0.2 // indirect
-	github.com/gobuffalo/packr/v2 v2.8.1 // indirect
 	github.com/gobuffalo/plush/v4 v4.1.18 // indirect
 	github.com/gobuffalo/tags/v3 v3.1.4 // indirect
 	github.com/goccy/go-json v0.9.11 // indirect
@@ -162,7 +160,7 @@ require (
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
-	google.golang.org/appengine v1.6.6 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20211118181313-81c1377c94b1 // indirect
 	google.golang.org/grpc v1.46.2 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect

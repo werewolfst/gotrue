@@ -6,7 +6,8 @@ import (
 	openapi "github.com/alibabacloud-go/darabonba-openapi/client"
 	dysmsapi20170525 "github.com/alibabacloud-go/dysmsapi-20170525/v2/client"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/netlify/gotrue/conf"
+
+	"github.com/supabase/gotrue/internal/conf"
 )
 
 const (
@@ -27,6 +28,15 @@ func NewAliyunProvider(config conf.AliyunProviderConfiguration) (SmsProvider, er
 		Config:  &config,
 		APIPath: defaultApi,
 	}, nil
+}
+
+func (t *AliyunProvider) SendMessage(phone string, message string, channel string) error {
+	switch channel {
+	case SMSProvider:
+		return t.SendSms(phone, message)
+	default:
+		return fmt.Errorf("channel type %q is not supported for Aliyun", channel)
+	}
 }
 
 // Send an sms containing the OTP with Aliyun API
