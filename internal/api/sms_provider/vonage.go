@@ -44,7 +44,7 @@ func NewVonageProvider(config conf.VonageProviderConfiguration) (SmsProvider, er
 	}, nil
 }
 
-func (t *VonageProvider) SendMessage(phone string, message string, channel string) error {
+func (t *VonageProvider) SendMessage(phone string, message string, channel string, sender string) error {
 	switch channel {
 	case SMSProvider:
 		return t.SendSms(phone, message)

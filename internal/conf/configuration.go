@@ -186,7 +186,7 @@ type MailerConfiguration struct {
 }
 
 type PhoneProviderConfiguration struct {
-	Enabled bool `json:"enabled" default:"false"`
+	Enabled bool `json:"enabled" default:"true"`
 }
 
 type SmsProviderConfiguration struct {
@@ -226,11 +226,18 @@ type VonageProviderConfiguration struct {
 }
 
 type AliyunProviderConfiguration struct {
-	ApiKey       string `json:"api_key" split_words:"true"`
-	ApiSecret    string `json:"api_secret" split_words:"true"`
-	SignName     string `json:"sign_name" split_words:"true"`
-	TemplateCode string `json:"template_code" split_words:"true"`
-	Product      string `json:"product" split_words:"true"`
+	ApiKey          string `json:"api_key" split_words:"true"`
+	ApiSecret       string `json:"api_secret" split_words:"true"`
+	TitSignName     string `json:"tit_sign_name" split_words:"true"`
+	ArduinoSignName string `json:"arduino_sign_name" split_words:"true"`
+	AilySignName    string `json:"aily_sign_name" split_words:"true"`
+	XiyuanSignName  string `json:"xiyuan_sign_name" split_words:"true"`
+	TemplateCode    string `json:"template_code" split_words:"true"`
+	TitProduct      string `json:"tit_product" split_words:"true"`
+	ArduinoProduct  string `json:"arduino_product" split_words:"true"`
+	AilyProduct     string `json:"aily_product" split_words:"true"`
+	XiyuanProduct   string `json:"xiyuan_product" split_words:"true"`
+	DefaultSignName string `json:"default_sign_name" split_words:"true"`
 }
 
 type CaptchaConfiguration struct {
@@ -515,17 +522,46 @@ func (t *VonageProviderConfiguration) Validate() error {
 }
 
 func (t *AliyunProviderConfiguration) Validate() error {
+	fmt.Println("api_key", t.ApiKey)
 	if t.ApiKey == "" {
 		return errors.New("missing Aliyun API key")
 	}
 	if t.ApiSecret == "" {
 		return errors.New("missing Aliyun API secret")
 	}
-	if t.SignName == "" {
-		return errors.New("missing Aliyun Sign Name")
-	}
 	if t.TemplateCode == "" {
 		return errors.New("missing Aliyun template code")
+	}
+	if t.DefaultSignName == "" {
+		return errors.New("missing Aliyun default sign Name")
+	}
+	if t.TitSignName == "" {
+		return errors.New("missing Aliyun tit sign Name")
+	}
+	if t.ArduinoSignName == "" {
+		return errors.New("missing Aliyun arduino sign Name")
+	}
+	if t.AilySignName == "" {
+		return errors.New("missing Aliyun aily sign Name")
+	}
+	if t.XiyuanSignName == "" {
+		return errors.New("missing Aliyun xiyuan sign Name")
+	}
+
+	if t.TitProduct == "" {
+		return errors.New("missing Aliyun tit product name")
+	}
+
+	if t.ArduinoProduct == "" {
+		return errors.New("missing Aliyun arduino product name")
+	}
+
+	if t.AilyProduct == "" {
+		return errors.New("missing Aliyun aily product name")
+	}
+
+	if t.XiyuanProduct == "" {
+		return errors.New("missing Aliyun xiyuan product name")
 	}
 
 	return nil

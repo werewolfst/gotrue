@@ -49,10 +49,10 @@ func (ts *SignupTestSuite) TestSignup() {
 	// Request body
 	var buffer bytes.Buffer
 	require.NoError(ts.T(), json.NewEncoder(&buffer).Encode(map[string]interface{}{
-		"email":    "test@example.com",
+		"phone":    "123456789101",
 		"password": "test123",
 		"data": map[string]interface{}{
-			"a": 1,
+			"sender": "arduino",
 		},
 	}))
 

@@ -222,7 +222,14 @@ func (a *API) Signup(w http.ResponseWriter, r *http.Request) error {
 				if terr != nil {
 					return badRequestError("Error sending confirmation sms: %v", terr)
 				}
-				if terr = a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel); terr != nil {
+
+				smsSender, ok := params.Data["sender"].(string)
+				fmt.Println("sender: ", params.Data["sender"])
+				if !ok {
+					return badRequestError("Error sending confirmation sms, sender error: %v", err)
+				}
+
+				if terr = a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel, smsSender); terr != nil {
 					return badRequestError("Error sending confirmation sms: %v", terr)
 				}
 			}
