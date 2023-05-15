@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/fatih/structs"
@@ -218,13 +217,12 @@ func (a *API) UserUpdate(w http.ResponseWriter, r *http.Request) error {
 					return badRequestError("Error sending sms: %v", terr)
 				}
 
-				smsSender, ok := params.Data["sender"].(string)
-				fmt.Println("sender: ", params.Data["sender"])
-				if !ok {
-					return badRequestError("Error sending confirmation sms, sender error: %v", err)
+				sender, serr := smsProvider.GetSender(r.Referer())
+				if serr != nil {
+					return badRequestError("Error sending sms: %v", serr)
 				}
 
-				if terr := a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneChangeVerification, smsProvider, params.Channel, smsSender); terr != nil {
+				if terr := a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneChangeVerification, smsProvider, params.Channel, sender); terr != nil {
 					return internalServerError("Error sending phone change otp").WithInternalError(terr)
 				}
 			}

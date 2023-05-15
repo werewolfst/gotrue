@@ -3,6 +3,7 @@ package sms_provider
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	openapi "github.com/alibabacloud-go/darabonba-openapi/client"
 	dysmsapi20170525 "github.com/alibabacloud-go/dysmsapi-20170525/v2/client"
@@ -41,10 +42,73 @@ func (t *AliyunProvider) SendMessage(phone string, message string, channel strin
 
 // Send an sms containing the OTP with Aliyun API
 func (t *AliyunProvider) SendSms(phone string, message string, sender string) error {
-	fmt.Println("sender: ", sender)
+	var signName string
+	var product string
+	var templateCode string
+	var params map[string]string
+	var apiKey string
+	var apiSecret string
+
+	switch sender {
+	case "tit":
+		apiKey = t.Config.TitApiKey
+		apiSecret = t.Config.TitApiSecret
+		signName = t.Config.TitSignName
+		product = t.Config.TitProduct
+		templateCode = t.Config.TitTemplateCode
+		params = map[string]string{
+			"code": message,
+		}
+	case "arduino":
+		apiKey = t.Config.ApiKey
+		apiSecret = t.Config.ApiSecret
+		signName = t.Config.ArduinoSignName
+		product = t.Config.ArduinoProduct
+		templateCode = t.Config.ArduinoTemplateCode
+		params = map[string]string{
+			"code":    message,
+			"product": product,
+		}
+	case "aily":
+		apiKey = t.Config.ApiKey
+		apiSecret = t.Config.ApiSecret
+		signName = t.Config.AilySignName
+		product = t.Config.AilyProduct
+		templateCode = t.Config.AilyTemplateCode
+		params = map[string]string{
+			"code":    message,
+			"product": product,
+		}
+	case "xy":
+		apiKey = t.Config.ApiKey
+		apiSecret = t.Config.ApiSecret
+		signName = t.Config.XiyuanSignName
+		product = t.Config.XiyuanProduct
+		templateCode = t.Config.XiyuanTemplateCode
+		params = map[string]string{
+			"code":    message,
+			"product": product,
+		}
+	default:
+		apiKey = t.Config.ApiKey
+		apiSecret = t.Config.ApiSecret
+		signName = "blinker"
+		product = "三塔"
+		params = map[string]string{
+			"code":    message,
+			"product": product,
+		}
+	}
+
+	fmt.Println("ConfigSignName: ", signName)
+	fmt.Println("ConfigProduct: ", product)
+	fmt.Println("TemplateCode: ", templateCode)
+	fmt.Println("ApiKey: ", apiKey)
+	fmt.Println("ApiSecret: ", apiSecret)
+
 	config := &openapi.Config{}
-	config.SetAccessKeyId(t.Config.ApiKey)
-	config.SetAccessKeySecret(t.Config.ApiSecret)
+	config.SetAccessKeyId(apiKey)
+	config.SetAccessKeySecret(apiSecret)
 	config.Endpoint = tea.String(t.APIPath)
 
 	client := &dysmsapi20170525.Client{}
@@ -54,39 +118,11 @@ func (t *AliyunProvider) SendSms(phone string, message string, sender string) er
 		fmt.Println("SMS Client init error")
 	}
 
-	var signName string
-	var product string
-
-	switch sender {
-	case "tit":
-		signName = t.Config.TitSignName
-		product = t.Config.TitProduct
-	case "arduino":
-		signName = t.Config.ArduinoSignName
-		product = t.Config.ArduinoProduct
-	case "aily":
-		signName = t.Config.AilySignName
-		product = t.Config.AilyProduct
-	case "xy":
-		signName = t.Config.XiyuanSignName
-		product = t.Config.XiyuanProduct
-	default:
-		signName = "blinker"
-		product = "三塔"
-	}
-
-	fmt.Println("ConfigSignName: ", signName)
-	fmt.Println("ConfigProduct: ", product)
-
 	sendMsg := &dysmsapi20170525.SendSmsRequest{}
 	sendMsg.SetPhoneNumbers(phone)
 	sendMsg.SetSignName(signName)
-	sendMsg.SetTemplateCode(t.Config.TemplateCode)
+	sendMsg.SetTemplateCode(templateCode)
 
-	params := map[string]string{
-		"code":    message,
-		"product": product,
-	}
 	jsonStr, _ := json.Marshal(params)
 	sendMsg.SetTemplateParam(string(jsonStr))
 
@@ -98,4 +134,18 @@ func (t *AliyunProvider) SendSms(phone string, message string, sender string) er
 	fmt.Println(res)
 
 	return nil
+}
+
+func (t *AliyunProvider) GetSender(request_refer string) (string, error) {
+	if strings.Contains(request_refer, "titlab") {
+		return "tit", nil
+	} else if strings.Contains(request_refer, "arduino") {
+		return "arduino", nil
+	} else if strings.Contains(request_refer, "aily") {
+		return "aily", nil
+	} else if strings.Contains(request_refer, "xy") {
+		return "xy", nil
+	} else {
+		return "", fmt.Errorf("not support refer: ", request_refer)
+	}
 }

@@ -108,3 +108,7 @@ func (t *MessagebirdProvider) SendSms(phone string, message string) error {
 
 	return nil
 }
+
+func (t *MessagebirdProvider) GetSender(request_refer string) (string, error) {
+	return "", nil
+}

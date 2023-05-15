@@ -91,3 +91,7 @@ func (t *TextlocalProvider) SendSms(phone string, message string) error {
 
 	return nil
 }
+
+func (t *TextlocalProvider) GetSender(request_refer string) (string, error) {
+	return "", nil
+}

@@ -98,3 +98,7 @@ func (t *VonageProvider) SendSms(phone string, message string) error {
 
 	return nil
 }
+
+func (t *VonageProvider) GetSender(request_refer string) (string, error) {
+	return "", nil
+}

@@ -27,6 +27,7 @@ func init() {
 
 type SmsProvider interface {
 	SendMessage(phone, message, channel string, sender string) error
+	GetSender(request_refer string) (string, error)
 }
 
 func GetSmsProvider(config conf.GlobalConfiguration) (SmsProvider, error) {

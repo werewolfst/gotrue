@@ -3,7 +3,6 @@ package api
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 
@@ -200,13 +199,12 @@ func (a *API) SmsOtp(w http.ResponseWriter, r *http.Request) error {
 			return badRequestError("Error sending sms: %v", terr)
 		}
 
-		smsSender, ok := params.Data["sender"].(string)
-		fmt.Println("sender: ", params.Data["sender"])
-		if !ok {
-			return badRequestError("Error sending confirmation sms, sender error: %v", err)
+		sender, serr := smsProvider.GetSender(r.Referer())
+		if serr != nil {
+			return badRequestError("Error sending sms: %v", serr)
 		}
 
-		if err := a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel, smsSender); err != nil {
+		if err := a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, params.Channel, sender); err != nil {
 			return badRequestError("Error sending sms otp: %v", err)
 		}
 		return nil

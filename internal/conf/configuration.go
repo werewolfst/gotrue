@@ -226,18 +226,24 @@ type VonageProviderConfiguration struct {
 }
 
 type AliyunProviderConfiguration struct {
-	ApiKey          string `json:"api_key" split_words:"true"`
-	ApiSecret       string `json:"api_secret" split_words:"true"`
-	TitSignName     string `json:"tit_sign_name" split_words:"true"`
-	ArduinoSignName string `json:"arduino_sign_name" split_words:"true"`
-	AilySignName    string `json:"aily_sign_name" split_words:"true"`
-	XiyuanSignName  string `json:"xiyuan_sign_name" split_words:"true"`
-	TemplateCode    string `json:"template_code" split_words:"true"`
-	TitProduct      string `json:"tit_product" split_words:"true"`
-	ArduinoProduct  string `json:"arduino_product" split_words:"true"`
-	AilyProduct     string `json:"aily_product" split_words:"true"`
-	XiyuanProduct   string `json:"xiyuan_product" split_words:"true"`
-	DefaultSignName string `json:"default_sign_name" split_words:"true"`
+	ApiKey              string `json:"api_key" split_words:"true"`
+	ApiSecret           string `json:"api_secret" split_words:"true"`
+	TitApiKey           string `json:"tit_api_key" split_words:"true"`
+	TitApiSecret        string `json:"tit_api_secret" split_words:"true"`
+	TitSignName         string `json:"tit_sign_name" split_words:"true"`
+	ArduinoSignName     string `json:"arduino_sign_name" split_words:"true"`
+	AilySignName        string `json:"aily_sign_name" split_words:"true"`
+	XiyuanSignName      string `json:"xiyuan_sign_name" split_words:"true"`
+	TemplateCode        string `json:"template_code" split_words:"true"`
+	TitProduct          string `json:"tit_product" split_words:"true"`
+	ArduinoProduct      string `json:"arduino_product" split_words:"true"`
+	AilyProduct         string `json:"aily_product" split_words:"true"`
+	XiyuanProduct       string `json:"xiyuan_product" split_words:"true"`
+	DefaultSignName     string `json:"default_sign_name" split_words:"true"`
+	TitTemplateCode     string `json:"tit_template_code" split_words:"true"`
+	ArduinoTemplateCode string `json:"arduino_template_code" split_words:"true"`
+	AilyTemplateCode    string `json:"aily_template_code" split_words:"true"`
+	XiyuanTemplateCode  string `json:"xiyuan_template_code" split_words:"true"`
 }
 
 type CaptchaConfiguration struct {

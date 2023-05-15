@@ -130,7 +130,13 @@ func (a *API) Resend(w http.ResponseWriter, r *http.Request) error {
 			if terr != nil {
 				return terr
 			}
-			return a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, sms_provider.SMSProvider, "")
+
+			sender, serr := smsProvider.GetSender(r.Referer())
+			if serr != nil {
+				return badRequestError("Error sending sms: %v", serr)
+			}
+
+			return a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneConfirmationOtp, smsProvider, sms_provider.SMSProvider, sender)
 		case emailChangeVerification:
 			return a.sendEmailChange(tx, config, user, mailer, params.Email, referrer, config.Mailer.OtpLength, models.ImplicitFlow)
 		case phoneChangeVerification:
@@ -138,7 +144,13 @@ func (a *API) Resend(w http.ResponseWriter, r *http.Request) error {
 			if terr != nil {
 				return terr
 			}
-			return a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneChangeVerification, smsProvider, sms_provider.SMSProvider, "")
+
+			sender, serr := smsProvider.GetSender(r.Referer())
+			if serr != nil {
+				return badRequestError("Error sending sms: %v", serr)
+			}
+
+			return a.sendPhoneConfirmation(ctx, tx, user, params.Phone, phoneChangeVerification, smsProvider, sms_provider.SMSProvider, sender)
 		}
 		return nil
 	})
