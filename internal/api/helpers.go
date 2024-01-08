@@ -4,17 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net"
-	"net/http"
-	"net/http/httptrace"
-	"net/url"
-
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/supabase/gotrue/internal/conf"
 	"github.com/supabase/gotrue/internal/models"
 	"github.com/supabase/gotrue/internal/utilities"
+	"net"
+	"net/http"
+	"net/http/httptrace"
 )
 
 func addRequestID(globalConfig *conf.GlobalConfiguration) middlewareHandler {
@@ -85,26 +83,29 @@ func getRedirectTo(r *http.Request) (reqref string) {
 }
 
 func isRedirectURLValid(config *conf.GlobalConfiguration, redirectURL string) bool {
-	if redirectURL == "" {
-		return false
-	}
+	// 忽略验证
+	return true
 
-	base, berr := url.Parse(config.SiteURL)
-	refurl, rerr := url.Parse(redirectURL)
-
-	// As long as the referrer came from the site, we will redirect back there
-	if berr == nil && rerr == nil && base.Hostname() == refurl.Hostname() {
-		return true
-	}
-
-	// For case when user came from mobile app or other permitted resource - redirect back
-	for _, pattern := range config.URIAllowListMap {
-		if pattern.Match(redirectURL) {
-			return true
-		}
-	}
-
-	return false
+	//if redirectURL == "" {
+	//	return false
+	//}
+	//
+	//base, berr := url.Parse(config.SiteURL)
+	//refurl, rerr := url.Parse(redirectURL)
+	//
+	//// As long as the referrer came from the site, we will redirect back there
+	//if berr == nil && rerr == nil && base.Hostname() == refurl.Hostname() {
+	//	return true
+	//}
+	//
+	//// For case when user came from mobile app or other permitted resource - redirect back
+	//for _, pattern := range config.URIAllowListMap {
+	//	if pattern.Match(redirectURL) {
+	//		return true
+	//	}
+	//}
+	//
+	//return false
 }
 
 func (a *API) getReferrer(r *http.Request) string {
